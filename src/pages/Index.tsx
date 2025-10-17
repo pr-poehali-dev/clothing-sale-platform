@@ -47,6 +47,14 @@ const Index = () => {
       image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/6c4bbabc-911d-4e0f-92df-c9ebc1256c50.jpg',
       badge: 'Новинка',
       category: 'Свитшоты'
+    },
+    {
+      id: 5,
+      name: 'Массажер для взрослых',
+      price: 1990,
+      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/d50f10d1-5dc0-434f-a693-2154b259dff4.jpg',
+      badge: 'Хит',
+      category: 'Для взрослых'
     }
   ];
 
