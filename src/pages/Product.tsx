@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,7 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 import Icon from '@/components/ui/icon';
+import { products } from '@/data/products';
+import { addToCart, toggleFavorite, isFavorite, getCartCount } from '@/lib/cart';
 
 const Product = () => {
   const [searchParams] = useSearchParams();
@@ -18,82 +21,74 @@ const Product = () => {
   const productId = searchParams.get('id');
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [cartCount, setCartCount] = useState(0);
+  const [isInFavorites, setIsInFavorites] = useState(false);
 
-  const products = [
-    {
-      id: 1,
-      name: 'Базовая футболка',
-      price: 2990,
-      images: [
-        'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/6c4bbabc-911d-4e0f-92df-c9ebc1256c50.jpg',
-      ],
-      badge: 'Новинка',
-      category: 'Топы',
-      description: 'Классическая базовая футболка из 100% хлопка. Идеально подходит для повседневной носки и создания casual образов.',
-      sizes: ['XS', 'S', 'M', 'L', 'XL'],
-      material: '100% хлопок',
-      care: 'Машинная стирка при 30°C'
-    },
-    {
-      id: 2,
-      name: 'Платье Summer',
-      price: 5490,
-      oldPrice: 7990,
-      images: [
-        'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/5acb302f-1338-4dd3-a0fe-5b6bfb667507.jpg',
-      ],
-      badge: 'Скидка -30%',
-      category: 'Платья',
-      description: 'Легкое летнее платье свободного кроя. Идеально для жарких дней и вечерних прогулок.',
-      sizes: ['XS', 'S', 'M', 'L', 'XL'],
-      material: 'Вискоза с добавлением эластана',
-      care: 'Деликатная стирка, глажка при низкой температуре'
-    },
-    {
-      id: 3,
-      name: 'Джинсы Slim Fit',
-      price: 4990,
-      images: [
-        'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/14cf4117-19da-4e62-bf01-3f0ce4189da1.jpg',
-      ],
-      badge: 'Хит',
-      category: 'Джинсы',
-      description: 'Стильные джинсы Slim Fit с идеальной посадкой. Изготовлены из качественного денима с добавлением эластана для комфорта.',
-      sizes: ['28', '30', '32', '34', '36'],
-      material: '98% хлопок, 2% эластан',
-      care: 'Стирка при 40°C, не отбеливать'
-    },
-    {
-      id: 4,
-      name: 'Свитшот Oversize',
-      price: 3990,
-      images: [
-        'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/6c4bbabc-911d-4e0f-92df-c9ebc1256c50.jpg',
-      ],
-      badge: 'Новинка',
-      category: 'Свитшоты',
-      description: 'Трендовый свитшот oversize для создания модных образов. Мягкий, теплый и невероятно комфортный.',
-      sizes: ['S', 'M', 'L', 'XL'],
-      material: '80% хлопок, 20% полиэстер',
-      care: 'Машинная стирка при 30°C, сушка на горизонтальной поверхности'
-    },
-    {
-      id: 5,
-      name: 'Массажер для взрослых',
-      price: 1990,
-      images: [
-        'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/d50f10d1-5dc0-434f-a693-2154b259dff4.jpg',
-      ],
-      badge: 'Хит',
-      category: 'Для взрослых',
-      description: 'Качественный массажер для релаксации. Изготовлен из гипоаллергенного материала. Водонепроницаемый дизайн.',
-      sizes: ['Универсальный'],
-      material: 'Медицинский силикон',
-      care: 'Мыть теплой водой с мылом, хранить в сухом месте'
+  useEffect(() => {
+    if (productId) {
+      setIsInFavorites(isFavorite(Number(productId)));
     }
-  ];
+  }, [productId]);
 
-  const product = products.find(p => p.id === Number(productId));
+  useEffect(() => {
+    setCartCount(getCartCount());
+    
+    const handleCartUpdate = () => setCartCount(getCartCount());
+    const handleFavoritesUpdate = () => {
+      if (productId) {
+        setIsInFavorites(isFavorite(Number(productId)));
+      }
+    };
+    
+    window.addEventListener('cart-updated', handleCartUpdate);
+    window.addEventListener('favorites-updated', handleFavoritesUpdate);
+    
+    return () => {
+      window.removeEventListener('cart-updated', handleCartUpdate);
+      window.removeEventListener('favorites-updated', handleFavoritesUpdate);
+    };
+  }, [productId]);
+
+  const productsWithImages = products.map(p => ({
+    ...p,
+    images: [p.image]
+  }));
+
+  const product = productsWithImages.find(p => p.id === Number(productId));
+
+  const handleAddToCart = () => {
+    if (!product || !selectedSize) {
+      toast.error('Выберите размер');
+      return;
+    }
+
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      size: selectedSize,
+      quantity: quantity
+    });
+
+    toast.success('Товар добавлен в корзину!');
+  };
+
+  const handleToggleFavorite = () => {
+    if (!product) return;
+
+    const added = toggleFavorite({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      category: product.category
+    });
+
+    toast.success(added ? 'Добавлено в избранное!' : 'Удалено из избранного');
+  };
+
+
 
   if (!product) {
     return (
@@ -118,8 +113,16 @@ const Product = () => {
               <Button variant="ghost" size="icon">
                 <Icon name="Search" size={20} />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={() => navigate('/favorites')}>
+                <Icon name="Heart" size={20} />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => navigate('/cart')} className="relative">
                 <Icon name="ShoppingBag" size={20} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Button>
             </div>
           </div>
@@ -216,6 +219,7 @@ const Product = () => {
                   size="lg" 
                   className="w-full"
                   disabled={!selectedSize}
+                  onClick={handleAddToCart}
                 >
                   <Icon name="ShoppingCart" size={20} className="mr-2" />
                   Добавить в корзину
@@ -224,9 +228,10 @@ const Product = () => {
                   size="lg" 
                   variant="outline" 
                   className="w-full"
+                  onClick={handleToggleFavorite}
                 >
-                  <Icon name="Heart" size={20} className="mr-2" />
-                  В избранное
+                  <Icon name="Heart" size={20} className={`mr-2 ${isInFavorites ? 'fill-red-500 text-red-500' : ''}`} />
+                  {isInFavorites ? 'В избранном' : 'В избранное'}
                 </Button>
               </div>
 

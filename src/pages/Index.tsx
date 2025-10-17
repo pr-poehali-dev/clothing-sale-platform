@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,54 +11,22 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Icon from '@/components/ui/icon';
+import { products } from '@/data/products';
+import { getCartCount } from '@/lib/cart';
 
 const Index = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('home');
+  const [cartCount, setCartCount] = useState(0);
 
-  const products = [
-    {
-      id: 1,
-      name: 'Базовая футболка',
-      price: 2990,
-      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/6c4bbabc-911d-4e0f-92df-c9ebc1256c50.jpg',
-      badge: 'Новинка',
-      category: 'Топы'
-    },
-    {
-      id: 2,
-      name: 'Платье Summer',
-      price: 5490,
-      oldPrice: 7990,
-      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/5acb302f-1338-4dd3-a0fe-5b6bfb667507.jpg',
-      badge: 'Скидка -30%',
-      category: 'Платья'
-    },
-    {
-      id: 3,
-      name: 'Джинсы Slim Fit',
-      price: 4990,
-      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/14cf4117-19da-4e62-bf01-3f0ce4189da1.jpg',
-      badge: 'Хит',
-      category: 'Джинсы'
-    },
-    {
-      id: 4,
-      name: 'Свитшот Oversize',
-      price: 3990,
-      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/6c4bbabc-911d-4e0f-92df-c9ebc1256c50.jpg',
-      badge: 'Новинка',
-      category: 'Свитшоты'
-    },
-    {
-      id: 5,
-      name: 'Массажер для взрослых',
-      price: 1990,
-      image: 'https://cdn.poehali.dev/projects/5eb67637-dcb7-4d72-a568-6fc27ce813c3/files/d50f10d1-5dc0-434f-a693-2154b259dff4.jpg',
-      badge: 'Хит',
-      category: 'Для взрослых'
-    }
-  ];
+  useEffect(() => {
+    setCartCount(getCartCount());
+    
+    const handleCartUpdate = () => setCartCount(getCartCount());
+    window.addEventListener('cart-updated', handleCartUpdate);
+    
+    return () => window.removeEventListener('cart-updated', handleCartUpdate);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -124,8 +92,16 @@ const Index = () => {
               <Button variant="ghost" size="icon">
                 <Icon name="Search" size={20} />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={() => navigate('/favorites')}>
+                <Icon name="Heart" size={20} />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => navigate('/cart')} className="relative">
                 <Icon name="ShoppingBag" size={20} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Button>
               
               <Sheet>
