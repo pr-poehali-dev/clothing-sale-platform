@@ -426,6 +426,89 @@ const Index = () => {
           </div>
         </section>
 
+        <section id="reviews" className="py-20 bg-white">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4">Отзывы наших клиентов</h2>
+              <p className="text-muted-foreground text-lg">Нам доверяют тысячи покупателей</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+              <Card className="border-2 border-accent/20">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-1 mb-4">
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                  </div>
+                  <p className="text-muted-foreground mb-4">
+                    "Заказала платье на вечер — пришло быстро, качество отличное! Ткань приятная к телу, сидит идеально. Буду заказывать еще!"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                      <Icon name="User" size={20} className="text-accent" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Анна К.</p>
+                      <p className="text-sm text-muted-foreground">Москва</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-2 border-accent/20">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-1 mb-4">
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                  </div>
+                  <p className="text-muted-foreground mb-4">
+                    "Крутой магазин! Взял джинсы и футболку — все супер. Цены адекватные, доставка в пункт выдачи бесплатная. Рекомендую!"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
+                      <Icon name="User" size={20} className="text-secondary" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Дмитрий М.</p>
+                      <p className="text-sm text-muted-foreground">Санкт-Петербург</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-2 border-accent/20">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-1 mb-4">
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                    <Icon name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                  </div>
+                  <p className="text-muted-foreground mb-4">
+                    "Очень довольна покупкой! Свитшот оверсайз — именно то, что искала. Материал классный, не линяет. Поддержка быстро ответила на все вопросы."
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                      <Icon name="User" size={20} className="text-accent" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Елена В.</p>
+                      <p className="text-sm text-muted-foreground">Казань</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         <section id="contacts" className="py-20 bg-muted">
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="text-center mb-12">
@@ -433,7 +516,7 @@ const Index = () => {
               <p className="text-muted-foreground text-lg">Мы всегда на связи</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="w-12 h-12 mx-auto mb-4 bg-accent/10 rounded-full flex items-center justify-center">
@@ -442,17 +525,6 @@ const Index = () => {
                   <h3 className="font-semibold mb-2">Телефон</h3>
                   <p className="text-muted-foreground">+7 (495) 123-45-67</p>
                   <p className="text-sm text-muted-foreground mt-1">Пн-Вс 9:00-21:00</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 mx-auto mb-4 bg-accent/10 rounded-full flex items-center justify-center">
-                    <Icon name="Mail" size={24} className="text-accent" />
-                  </div>
-                  <h3 className="font-semibold mb-2">Email</h3>
-                  <p className="text-muted-foreground">info@fashion-store.ru</p>
-                  <p className="text-sm text-muted-foreground mt-1">Ответим в течение 24 часов</p>
                 </CardContent>
               </Card>
               
