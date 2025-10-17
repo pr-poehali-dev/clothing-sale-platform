@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +13,7 @@ import {
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('home');
 
   const products = [
@@ -184,8 +186,9 @@ const Index = () => {
               {products.map((product, index) => (
                 <Card 
                   key={product.id} 
-                  className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-scale-in"
+                  className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-scale-in cursor-pointer"
                   style={{ animationDelay: `${index * 100}ms` }}
+                  onClick={() => navigate(`/product?id=${product.id}`)}
                 >
                   <div className="relative overflow-hidden aspect-[3/4] bg-gray-100">
                     <img 
@@ -201,6 +204,10 @@ const Index = () => {
                     <Button 
                       className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product?id=${product.id}`);
+                      }}
                     >
                       Быстрый просмотр
                     </Button>
