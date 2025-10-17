@@ -63,7 +63,7 @@ const Index = () => {
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="text-2xl font-bold tracking-tight">FASHION</div>
+            <div className="text-2xl font-bold tracking-tight">SHOPPHOP</div>
             
             <nav className="hidden md:flex items-center gap-8">
               <button 
@@ -342,7 +342,7 @@ const Index = () => {
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <h2 className="text-4xl font-bold mb-6">О бренде</h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              FASHION — это современный бренд одежды, который создает уникальные коллекции для тех, кто ценит стиль и комфорт. 
+              SHOPPHOP — это современный бренд одежды, который создает уникальные коллекции для тех, кто ценит стиль и комфорт. 
               Мы верим, что мода должна быть доступной каждому, поэтому предлагаем качественные вещи по честным ценам.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -475,7 +475,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">FASHION</h3>
+              <h3 className="text-xl font-bold mb-4">SHOPPHOP</h3>
               <p className="text-sm opacity-80">Стиль без границ</p>
             </div>
             <div>
@@ -512,7 +512,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-primary-foreground/20 pt-6 text-center text-sm opacity-80">
-            <p>&copy; 2024 FASHION. Все права защищены.</p>
+            <p>&copy; 2024 SHOPPHOP. Все права защищены.</p>
           </div>
         </div>
       </footer>
